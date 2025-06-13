@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eye Follow Cursor</title>
+    <style>
+        main{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            /* background: #000; */
+        }
+
+        #eye-wrapper {
+            width: 20%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            /* margin: 0 auto; */
+            height: 200px;
+            background-color: rgb(255, 0, 0);
+        }
+
+        .eye {
+            position: relative;
+            height: 100px;
+            width: 75px;
+            border-radius: 50%;
+            background-color: yellow;
+            overflow: hidden;
+        }
+
+        @media screen and (max-width:480px){
+            #eye-wrapper {
+                width: 100%;
+            }
+        }
+
+        #upper-eye-lash {
+            position: absolute;
+            top: 0;
+            /* height: 45%; */
+            height: 0%;
+            width: 100%;
+            background-color: blue;
+            z-index: 1;
+            animation-name: blink-eyelash;
+            animation-timing-function: linear;
+            animation-duration: 10s;
+            animation-iteration-count: infinite;
+        }
+
+        #lower-eye-lash {
+            position: absolute;
+            bottom: 0;
+            /* height: 45%; */
+            height: 0%;
+            width: 100%;
+            background-color: blue;
+            z-index: 1;
+             animation-name: blink-eyelash;
+            animation-timing-function: linear;
+            animation-duration: 10s;
+            animation-iteration-count: infinite;
+        }
+
+        .iris{
+            position: absolute;
+            top: 25px;
+            left: 11.75px;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            background-color: red;
+        }
+
+        @keyframes blink-eyelash {
+         0%{
+            height: 0%;
+         }
+         5% {
+            height: 45%;
+         }
+         10% {
+            height: 0%;
+         }
+        }
+
+
+    </style>
+</head>
+<body>
+    <main>
+        <div id="eye-wrapper">
+            <div class="eye">
+                <div id="upper-eye-lash"></div>
+                <div class="iris"></div>
+                <div id="lower-eye-lash"></div>
+            </div>
+            <div class="eye">
+                <div id="upper-eye-lash"></div>
+                <div class="iris"></div>
+                <div id="lower-eye-lash"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+      let eyeWrapper = document.getElementById("eye-wrapper");
+      let irises = eyeWrapper.getElementsByClassName("iris");
+      let eyes = document.getElementsByClassName("eye");
+
+      const rect = eyeWrapper.getBoundingClientRect();
+      console.log(rect)
+
+      let left = undefined;
+      
+      eyeWrapper.addEventListener('mousemove',(e)=>{
+        left = (e.clientX /rect.left) * 100 ;
+          for(let iris of irises){
+                iris.style.left = `${left}px`;
+                // iris.style.left = `${e.clientX - rect.left}px`;
+            }    
+
+      })
+    
+    </script>
+</body>
+</html>

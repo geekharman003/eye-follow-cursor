@@ -20,6 +20,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            background-color: red;
             gap: 2rem;
         }
 
@@ -106,7 +107,6 @@
       let eyes = document.getElementsByClassName("eye");
       const rect = eyeWrapper.getBoundingClientRect();
 
-      console.log(rect)
       
       window.addEventListener('mousemove',(e) =>{
           for(let iris of irises){

@@ -5,32 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eye Follow Cursor</title>
     <style>
+        *{
+            margin: 0;padding: 0;box-sizing: border-box;
+        }
         main{
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            /* background: #000; */
+            background: #000;
         }
 
         #eye-wrapper {
-            width: 20%;
-
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 2rem;
-            /* margin: 0 auto; */
-            height: 200px;
-            background-color: rgb(255, 0, 0);
         }
 
         .eye {
             position: relative;
             height: 100px;
-            width: 75px;
+            width: 100px;
             border-radius: 50%;
-            background-color: yellow;
+            background-color: rgb(255, 255, 255);
             overflow: hidden;
         }
 
@@ -40,42 +38,35 @@
             }
         }
 
+        .eye-lash {
+             position: absolute;
+             z-index: 1;
+             height: 0%;
+             width: 100%;
+             background-color: rgb(212, 209, 169);
+             animation-name: blink-eyelash;
+             animation-timing-function: linear;
+             animation-duration: 10s;
+             animation-iteration-count: infinite;
+        }
+
         #upper-eye-lash {
-            position: absolute;
             top: 0;
-            /* height: 45%; */
-            height: 0%;
-            width: 100%;
-            background-color: blue;
-            z-index: 1;
-            animation-name: blink-eyelash;
-            animation-timing-function: linear;
-            animation-duration: 10s;
-            animation-iteration-count: infinite;
         }
 
         #lower-eye-lash {
-            position: absolute;
             bottom: 0;
-            /* height: 45%; */
-            height: 0%;
-            width: 100%;
-            background-color: blue;
-            z-index: 1;
-             animation-name: blink-eyelash;
-            animation-timing-function: linear;
-            animation-duration: 10s;
-            animation-iteration-count: infinite;
         }
 
         .iris{
             position: absolute;
-            top: 25px;
-            left: 11.75px;
-            height: 50px;
-            width: 50px;
+            top: 5%;
+            left: 5%;
+            height: 30px;
+            width: 30px;
             border-radius: 50%;
-            background-color: red;
+            background-color: rgb(0, 0, 0);
+            transition: top 0.5s,left 0.5s;
         }
 
         @keyframes blink-eyelash {
@@ -97,14 +88,14 @@
     <main>
         <div id="eye-wrapper">
             <div class="eye">
-                <div id="upper-eye-lash"></div>
+                <div id="upper-eye-lash" class="eye-lash"></div>
                 <div class="iris"></div>
-                <div id="lower-eye-lash"></div>
+                <div id="lower-eye-lash" class="eye-lash"></div>
             </div>
             <div class="eye">
-                <div id="upper-eye-lash"></div>
+                <div id="upper-eye-lash" class="eye-lash"></div>
                 <div class="iris"></div>
-                <div id="lower-eye-lash"></div>
+                <div id="lower-eye-lash" class="eye-lash"></div>
             </div>
         </div>
     </main>
@@ -113,21 +104,36 @@
       let eyeWrapper = document.getElementById("eye-wrapper");
       let irises = eyeWrapper.getElementsByClassName("iris");
       let eyes = document.getElementsByClassName("eye");
-
       const rect = eyeWrapper.getBoundingClientRect();
+
       console.log(rect)
-
-      let left = undefined;
       
-      eyeWrapper.addEventListener('mousemove',(e)=>{
-        left = (e.clientX /rect.left) * 100 ;
+      window.addEventListener('mousemove',(e) =>{
           for(let iris of irises){
-                iris.style.left = `${left}px`;
-                // iris.style.left = `${e.clientX - rect.left}px`;
-            }    
-
-      })
+            moveIris(iris,e.clientX - rect.left,e.clientY - rect.top)
+      }})
     
+      function moveIris(iris,left,top){
+        if(left <= 5){
+                    iris.style.left = "5%";   //lower boundary of left
+                }
+                else if(left<60){
+                    iris.style.left = `${left}%`;
+                }
+                else {
+                    iris.style.left = "60%";  //upper booundary of left
+                }
+
+                if(top < 5) {
+                    iris.style.top = "5%";  //lower boundary of top
+                }
+                else if(top < 60){
+                    iris.style.top = `${top}%`;
+                }
+                else{
+                    iris.style.top = "60%";  //upper boundary of top
+                }
+      }
     </script>
 </body>
 </html>
